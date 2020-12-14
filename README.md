@@ -1,4 +1,4 @@
-![Goal List][CheckBox.png]
+![Goal List](CheckBox.png)
 
 # Goal List Training
  An executive function hijacker
