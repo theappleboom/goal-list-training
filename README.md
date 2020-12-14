@@ -4,7 +4,7 @@
  An executive function hijacker
 
 # Releases
- Go to the releases folder, download the zip file, and unzip it
+ [Releases are found here.](https://github.com/theappleboom/goal-list-training/releases) The first kind is the main release, the second is for debugging purposes, and the third is the main release with some example files.
 
 # How To Use
 ## General
