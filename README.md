@@ -1,2 +1,5 @@
-# goal-list-training
+# Goal List Training
  An executive function hijacker
+
+# Releases
+ Go to the releases folder, download the zip file, and unzip it
