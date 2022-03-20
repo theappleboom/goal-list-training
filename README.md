@@ -6,6 +6,9 @@
 # Releases
  [Releases are found here.](https://github.com/theappleboom/goal-list-training/releases) The first kind is the main release, the second is for debugging purposes, and the third is the main release with some example files.
 
+# CODE BASE CHANGE
+ This code is moving over to Flutter from Python Tkinter. The old python release source code can be found in the branch 'legacy.'
+
 # How To Use
 ## General
  Goal List is a training program that procedurally creates a basic training regimen. You don't need to plan how to train at all. You only need to tell the program what you want to do.
