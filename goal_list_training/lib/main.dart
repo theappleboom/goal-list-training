@@ -40,6 +40,7 @@ class _MyHomePageState extends State<MyHomePage> {
     "Scratch on Tree",
   ];
   final _finished = <String>{};
+  final _goalList = <GoalListItem>{};
 
   @override
   Widget build(BuildContext context) {
