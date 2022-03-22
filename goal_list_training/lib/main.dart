@@ -86,3 +86,11 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
+
+class GoalListItem {
+  String name;
+  int rarity;
+  int weight;
+
+  GoalListItem(this.name, this.rarity, this.weight);
+}
