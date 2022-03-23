@@ -1,4 +1,4 @@
-import 'dart:ui';
+import 'dart:async';
 
 import 'package:flutter/material.dart';
 
@@ -44,35 +44,11 @@ class _MyHomePageState extends State<MyHomePage> {
   final _finished = <String>{};
   final _goalList = GoalList();
 
-  void _pushItemAdder() {
-    Navigator.of(context).push(
-      MaterialPageRoute(builder: (context) => ItemAdder(goalList: _goalList)),
-    );
-  }
-
   void _pushListEditor() {
-    Navigator.of(context).push(MaterialPageRoute<void>(builder: (context) {
-      final tiles = _goalList.listItems.map((listItem) {
-        return ListTile(
-          title: Text(
-            listItem.name,
-            style: const TextStyle(fontSize: 20.0),
-          ),
-        );
-      });
-      final divided = tiles.isNotEmpty
-          ? ListTile.divideTiles(context: context, tiles: tiles).toList()
-          : <Widget>[];
-
-      return Scaffold(
-        appBar: AppBar(
-          title: const Text('Current Goal List'),
-        ),
-        body: ListView(children: divided),
-        floatingActionButton: FloatingActionButton(
-            child: const Icon(Icons.add), onPressed: _pushItemAdder),
-      );
-    }));
+    Navigator.of(context).push(
+      MaterialPageRoute(
+          builder: (context) => GoalListInspector(goalList: _goalList)),
+    );
   }
 
   @override
@@ -123,6 +99,62 @@ class _MyHomePageState extends State<MyHomePage> {
                   });
             }),
       ),
+    );
+  }
+}
+
+class GoalListInspector extends StatefulWidget {
+  const GoalListInspector({Key? key, required this.goalList}) : super(key: key);
+  final GoalList goalList;
+
+  @override
+  State<GoalListInspector> createState() => _GoalListInspectorState();
+}
+
+class _GoalListInspectorState extends State<GoalListInspector> {
+  var _itemList = <GoalListItem>[];
+
+  void _pushItemAdder() {
+    Navigator.of(context)
+        .push(
+      MaterialPageRoute(
+          builder: (context) => ItemAdder(goalList: widget.goalList)),
+    )
+        .then((_) {
+      // Updates the list after an item has been added
+      setState(() {});
+    });
+  }
+
+  void listUpdateCallback() {}
+
+  @override
+  void initState() {
+    super.initState();
+    _itemList = widget.goalList.listItems;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final tiles = _itemList.map((listItem) {
+      return ListTile(
+        title: Text(
+          listItem.name,
+          style: const TextStyle(fontSize: 20.0),
+        ),
+      );
+    });
+    final divided = tiles.isNotEmpty
+        ? ListTile.divideTiles(context: context, tiles: tiles).toList()
+        : <Widget>[];
+
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Current Goal List'),
+      ),
+      body: ListView(children: divided),
+      floatingActionButton: FloatingActionButton(
+          child: const Icon(Icons.add), onPressed: _pushItemAdder),
     );
   }
 }
