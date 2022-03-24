@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 
 void main() {
@@ -126,7 +124,7 @@ class _GoalListInspectorState extends State<GoalListInspector> {
     });
   }
 
-  void listUpdateCallback() {}
+  void _removeItem() {}
 
   @override
   void initState() {
@@ -136,23 +134,79 @@ class _GoalListInspectorState extends State<GoalListInspector> {
 
   @override
   Widget build(BuildContext context) {
+    const boldStyle = TextStyle(fontWeight: FontWeight.bold);
     final tiles = _itemList.map((listItem) {
-      return ListTile(
-        title: Text(
-          listItem.name,
-          style: const TextStyle(fontSize: 20.0),
-        ),
+      return TableRow(
+        children: [
+          TableCell(
+            verticalAlignment: TableCellVerticalAlignment.middle,
+            child: Text(
+              listItem.name,
+              textScaleFactor: 1,
+            ),
+          ),
+          TableCell(
+            verticalAlignment: TableCellVerticalAlignment.middle,
+            child: Text(
+              listItem.getRarityName(),
+              textScaleFactor: 1,
+            ),
+          ),
+          TableCell(
+            verticalAlignment: TableCellVerticalAlignment.middle,
+            child: Text(
+              listItem.weight.toString(),
+              textScaleFactor: 1,
+            ),
+          ),
+          IconButton(
+            icon: const Icon(Icons.cancel),
+            color: Colors.red,
+            onPressed: _removeItem,
+          ),
+        ],
       );
-    });
-    final divided = tiles.isNotEmpty
-        ? ListTile.divideTiles(context: context, tiles: tiles).toList()
-        : <Widget>[];
+    }).toList();
+
+    tiles.insert(
+        0,
+        const TableRow(children: [
+          Text(
+            "Name",
+            textScaleFactor: 1,
+            style: boldStyle,
+          ),
+          Text(
+            "Rarity",
+            textScaleFactor: 1,
+            style: boldStyle,
+          ),
+          Text(
+            "Weight",
+            textScaleFactor: 1,
+            style: boldStyle,
+          ),
+          Text(
+            "Remove",
+            textScaleFactor: 1,
+            style: boldStyle,
+          ),
+        ]));
 
     return Scaffold(
       appBar: AppBar(
         title: const Text('Current Goal List'),
       ),
-      body: ListView(children: divided),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Table(
+          columnWidths: const {
+            0: FixedColumnWidth(100.0),
+            1: FixedColumnWidth(100.0),
+          },
+          children: tiles,
+        ),
+      ),
       floatingActionButton: FloatingActionButton(
           child: const Icon(Icons.add), onPressed: _pushItemAdder),
     );
@@ -245,6 +299,19 @@ class GoalListItem {
   int weight;
 
   GoalListItem(this.name, this.rarity, this.weight);
+
+  String getRarityName() {
+    switch (rarity) {
+      case 0:
+        return "Common";
+      case 1:
+        return "Uncommon";
+      case 2:
+        return "Rarity";
+    }
+
+    return "Error";
+  }
 }
 
 class GoalList {
@@ -254,5 +321,9 @@ class GoalList {
 
   addListItem(String name, int rarity) {
     listItems.add(GoalListItem(name, rarity, 0));
+  }
+
+  removeListItem(int index) {
+    listItems.removeAt(index);
   }
 }
