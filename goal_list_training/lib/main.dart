@@ -124,7 +124,12 @@ class _GoalListInspectorState extends State<GoalListInspector> {
     });
   }
 
-  void _removeItem() {}
+  void _removeItem(GoalListItem listItem) {
+    setState(() {
+      _itemList.remove(listItem);
+      widget.goalList.removeListItem(listItem);
+    });
+  }
 
   @override
   void initState() {
@@ -162,7 +167,9 @@ class _GoalListInspectorState extends State<GoalListInspector> {
           IconButton(
             icon: const Icon(Icons.cancel),
             color: Colors.red,
-            onPressed: _removeItem,
+            onPressed: () {
+              _removeItem(listItem);
+            },
           ),
         ],
       );
@@ -170,28 +177,30 @@ class _GoalListInspectorState extends State<GoalListInspector> {
 
     tiles.insert(
         0,
-        const TableRow(children: [
-          Text(
-            "Name",
-            textScaleFactor: 1,
-            style: boldStyle,
-          ),
-          Text(
-            "Rarity",
-            textScaleFactor: 1,
-            style: boldStyle,
-          ),
-          Text(
-            "Weight",
-            textScaleFactor: 1,
-            style: boldStyle,
-          ),
-          Text(
-            "Remove",
-            textScaleFactor: 1,
-            style: boldStyle,
-          ),
-        ]));
+        const TableRow(
+          children: [
+            Text(
+              "Name",
+              textScaleFactor: 1,
+              style: boldStyle,
+            ),
+            Text(
+              "Rarity",
+              textScaleFactor: 1,
+              style: boldStyle,
+            ),
+            Text(
+              "Weight",
+              textScaleFactor: 1,
+              style: boldStyle,
+            ),
+            Text(
+              "Remove",
+              textScaleFactor: 1,
+              style: boldStyle,
+            ),
+          ],
+        ));
 
     return Scaffold(
       appBar: AppBar(
@@ -323,7 +332,7 @@ class GoalList {
     listItems.add(GoalListItem(name, rarity, 0));
   }
 
-  removeListItem(int index) {
-    listItems.removeAt(index);
+  removeListItem(GoalListItem listItem) {
+    listItems.remove(listItem);
   }
 }
